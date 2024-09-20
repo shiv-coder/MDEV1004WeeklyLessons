@@ -1,0 +1,19 @@
+{
+  "name": "expressapp",
+  "version": "1.0.0",
+  "description": "This is my first Express App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiv-coder/MDEV1004WeeklyLessons.git"
+  },
+  "author": "Shivali Dhaka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shiv-coder/MDEV1004WeeklyLessons/issues"
+  },
+  "homepage": "https://github.com/shiv-coder/MDEV1004WeeklyLessons#readme"
+}
