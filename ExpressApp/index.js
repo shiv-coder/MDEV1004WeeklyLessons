@@ -1,50 +1,51 @@
-// Import express
+// index.js
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const fs = require('fs'); // Correctly importing fs
-const path = require('path');
-const movieRoutes = require('./src/routes/routes');
-
-// Load environment variables from config.env
+const movieRoutes = require('./src/routes/routes'); // Import the movie routes
+const fs = require('fs');
 dotenv.config({ path: './config.env' });
 
 // Initialize MongoDB connection
 const InitiateMongoServer = require('./db');
 InitiateMongoServer();
 
-// Read data from Movies.json
-let data;
-try {
-    data = JSON.parse(fs.readFileSync('./movies.json', 'utf-8'));
-    console.log(data);
-} catch (e) {
-    console.error('Error reading or parsing movies.json:', e);
-}
-
 // Initialize the express app
 const app = express();
+//Read data from movies.json
+const data = JSON.parse(fs.readFileSync('./movies.json','utf-8'));
+//console.log(data);
+//Function to import movies from JSON
+const importMovies = async (req, res) => {
+    try {
+        const count = await Movie.countDocuments();
+        if (count === 0) {
+            
+            await Movie.create(data);
+            console.log('Data successfully imported to MongoDb');
+            res.status(200).send('Data successfully imported');
+        } else {
+            console.log('Data already exists in the database, skipping import');
+            res.status(200).send('Data already exists, skipping import');
+        }
+    } catch (e) {
+        console.error('Error importing data',e);
+        
+    }
+};
 
-// Middleware to parse JSON bodies
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-// Define a route
+// Define a root route
 app.get('/', (req, res) => {
     res.send('Welcome to the first program of Node.js Express');
 });
-app.use('/movie',movieRoutes);
-console.log("hi");
 
-// app.post('/submit', (req, res) => {
-//     res.send(`Received data: ${req.body.data}`);
-// });
+// Use the movie routes
+app.use('/movie', movieRoutes); // This will include all routes defined in routes.js
 
-
-
-// Set the port
 const port = process.env.PORT || 3000;
 
 // Start the server

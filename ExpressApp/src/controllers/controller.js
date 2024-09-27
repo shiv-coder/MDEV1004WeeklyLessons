@@ -1,17 +1,4 @@
 const Movie = require('../models/Movies');
-const fs = require('fs');
-
-//Function to import movies from JSON
-exports.importMovies = async(req,res)=>{
-    try{
-        const data = JSON.parse(fs.readFileSync('./movies.json', 'utf-8'));
-        await Movie.insertMany(data);//Import data into MONGODB
-        res.status(200).send("Movies imported sucessfully");
-    }
-    catch(e){
-            console.error(e);
-    }
-};
 
 //Function to get all the files
 exports.getMovies = async(req,res)=>{
@@ -26,3 +13,14 @@ exports.getMovies = async(req,res)=>{
 };
 
 //Function to create a new movie
+exports.createMovie = async(req,res)=>{
+    try{
+        const newMovie = new Movie(req.body);
+        await newMovie.save();
+         res.status(201).json(newMovie);
+    }
+    catch(e){
+            console.error(e);
+            res.status(500).send('Error creating Movies');
+    }
+};

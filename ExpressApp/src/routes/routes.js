@@ -3,10 +3,14 @@ const router = express.Router();
 const movieController = require('../controllers/controller');
 
 //Route to import movies
-router.post('/import',movieController.importMovies);
+//router.post('/import',movieController.importMovies);
 
 //Route to get all movies
 router.get('/',movieController.getMovies);
+
+//Route to create a new movie
+
+router.post('/create',movieController.createMovie);
 
 
 module.exports = router;
