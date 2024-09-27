@@ -1,40 +1,55 @@
-//import express
+// Import express
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-dotenv.config({path:'./config.env'});
+const fs = require('fs'); // Correctly importing fs
+const path = require('path');
 
+// Load environment variables from config.env
+dotenv.config({ path: './config.env' });
 
-//Initialize the express app
+// Initialize MongoDB connection
+const InitiateMongoServer = require('./db');
+InitiateMongoServer();
+
+// Read data from Movies.json
+let data;
+try {
+    data = JSON.parse(fs.readFileSync('./movies.json', 'utf-8'));
+    console.log(data);
+} catch (e) {
+    console.error('Error reading or parsing movies.json:', e);
+}
+
+// Initialize the express app
 const app = express();
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-//connect to mongodb Atlas
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-    console.log('Connected to mongodb');
-})
-.catch((error)=>{
-    console.error('Error connecting to mongoDB',error);
-});
-//Middleware to parseJSON bodies
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
-
-//Define a route
-app.get('/',(req,res)=>{
-    res.send('Welcome to the first program of node js express');
-})
-
-app.post('/submit',(req,res)=>{
-    res.send(`Received data:${req.body.data}`)
+// Define a route
+app.get('/', (req, res) => {
+    res.send('Welcome to the first program of Node.js Express');
 });
 
-//set the port
-const port = 3000;
+app.post('/submit', (req, res) => {
+    res.send(`Received data: ${req.body.data}`);
+});
 
-//start the server
-app.listen(port, ()=>{
-    console.log(`Server is running on http://localhost:${port}`)
+// Serve static files (if needed)
+// app.use(express.static(path.join(__dirname, 'public')));
+
+// Set the port
+const port = process.env.PORT || 3000;
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
 });
