@@ -36,8 +36,8 @@ try{
     res.status(201).json(movie);
 
 }
-catch{
+catch(e){
     console.error(e);
     res.status(500).send('Error retrieving the Movies');
 }
-}
+};
