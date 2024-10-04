@@ -41,3 +41,22 @@ catch(e){
     res.status(500).send('Error retrieving the Movies');
 }
 };
+
+
+//update Movie
+
+//Get a single movie by Id
+exports.updateMovie = async(req,res) =>{
+    try{
+        const updatedMovie = await Movie.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        if(!updatedMovie){
+            return res.status(404).send('Movie is not updated');
+        }
+        res.status(201).json(updatedMovie);
+    
+    }
+    catch(e){
+        console.error(e);
+        res.status(500).send('Error uodating the Movies');
+    }
+    };
