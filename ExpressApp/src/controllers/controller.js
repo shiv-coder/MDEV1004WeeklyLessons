@@ -24,3 +24,20 @@ exports.createMovie = async(req,res)=>{
             res.status(500).send('Error creating Movies');
     }
 };
+
+
+//Get a single movie by Id
+exports.getMovieById = async(req,res) =>{
+try{
+    const movie = await Movie.findById(req.params.id);
+    if(!movie){
+        return res.status(404).send('Movie is not found');
+    }
+    res.status(201).json(movie);
+
+}
+catch{
+    console.error(e);
+    res.status(500).send('Error retrieving the Movies');
+}
+}
