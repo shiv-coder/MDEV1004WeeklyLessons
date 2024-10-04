@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const movieRoutes = require('./src/routes/routes'); // Import the movie routes
+const {logger,handleNotFound} = require('./src/middleware/middleware');
 const fs = require('fs');
 dotenv.config({ path: './config.env' });
 
@@ -12,6 +13,7 @@ InitiateMongoServer();
 
 // Initialize the express app
 const app = express();
+
 //Read data from movies.json
 const data = JSON.parse(fs.readFileSync('./movies.json','utf-8'));
 //console.log(data);
@@ -37,6 +39,8 @@ const importMovies = async (req, res) => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(logger);//apply logger middleware
+app.use(handleNotFound);//404 handler for routes not defined
 
 // Define a root route
 app.get('/', (req, res) => {
