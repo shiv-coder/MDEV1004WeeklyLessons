@@ -1,4 +1,5 @@
 const Movie = require('../models/Movies');
+const fs =require('fs');
 
 //Function to get all the files
 exports.getMovies = async(req,res)=>{
@@ -77,3 +78,21 @@ exports.deleteMovie = async(req,res) =>{
         res.status(500).send('Error deleting the Movies');
     }
     };
+
+    // Function to import movies (moved from index.js)
+exports.importMovies = async (req, res) => {
+    try {
+        const data = JSON.parse(fs.readFileSync('./movies.json', 'utf-8')); // Read data from movies.json
+        const count = await Movie.countDocuments();
+        if (count === 0) {
+            await Movie.create(data); // Create movies in the database
+            console.log('Data successfully imported to MongoDb');
+            res.status(200).send('Data successfully imported');
+        } else {
+            res.status(200).send('Data already exists, skipping import');
+        }
+    } catch (e) {
+        console.error('Error importing data', e);
+        res.status(500).send('Error importing data');
+    }
+};
