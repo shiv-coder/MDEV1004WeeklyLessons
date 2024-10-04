@@ -60,3 +60,20 @@ exports.updateMovie = async(req,res) =>{
         res.status(500).send('Error uodating the Movies');
     }
     };
+
+
+    //Delete a single movie by Id
+exports.deleteMovie = async(req,res) =>{
+    try{
+        const deletedMovie = await Movie.findByIdAndDelete(req.params.id);
+        if(!deletedMovie){
+            return res.status(404).send('Movie not found');
+        }
+        res.status(201).json(deletedMovie);
+    
+    }
+    catch(e){
+        console.error(e);
+        res.status(500).send('Error deleting the Movies');
+    }
+    };
