@@ -39,8 +39,7 @@ const importMovies = async (req, res) => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(logger);//apply logger middleware
-app.use(handleNotFound);//404 handler for routes not defined
+
 
 // Define a root route
 app.get('/', (req, res) => {
@@ -49,7 +48,8 @@ app.get('/', (req, res) => {
 
 // Use the movie routes
 app.use('/movie', movieRoutes); // This will include all routes defined in routes.js
-
+app.use(logger);//apply logger middleware
+app.use(handleNotFound);//404 handler for routes not defined
 const port = process.env.PORT || 3000;
 
 // Start the server
