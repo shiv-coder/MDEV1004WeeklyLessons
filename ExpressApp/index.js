@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
 app.use('/movie', movieRoutes); // This will include all routes defined in routes.js
 app.use(logger);//apply logger middleware
 app.use(handleNotFound);//404 handler for routes not defined
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Start the server
 app.listen(port, () => {
