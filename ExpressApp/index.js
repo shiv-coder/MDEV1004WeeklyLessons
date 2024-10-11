@@ -1,6 +1,7 @@
 // index.js
 const express = require('express');
 const mongoose = require('mongoose');
+const session=require('express-session');
 const dotenv = require('dotenv');
 const movieRoutes = require('./src/routes/routes'); // Import the movie routes
 const {logger,handleNotFound} = require('./src/middleware/middleware');
