@@ -14,10 +14,10 @@ const getRepositories = async(req,res)=>{
         const repoData = response.data;
 
         const repositories = repoData.map((repo)=>({
-        name = repo.name,
-        full_name = repo.full_name,
-        description = repo.description,
-        language = repo.language,
+        name :repo.name,
+        full_name : repo.full_name,
+        description :repo.description,
+        language : repo.language,
         url:repo.html_url,
         created_at:new Date(repo.created_at),
         updated_at:new Date(repo.updated_at)
