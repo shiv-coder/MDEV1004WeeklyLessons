@@ -11,7 +11,7 @@ const PORT = process.env.PORT ||3000;
 mongoose
 .connect(process.env.MONGO_URI)
 .then(()=>console.log('Connected to MongoDB'))
-.catch((error)=>console.log('MongoDB Connection error',error));
+.catch((error)=>console.error('MongoDB Connection error',error));
 
 
 //Define routes
