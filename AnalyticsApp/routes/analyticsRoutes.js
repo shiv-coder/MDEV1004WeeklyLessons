@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {trackAnalytics,getAnalytics} = require('../controllers/analyticsController');
 
-router.get('/hello',trackAnalytics,(req,res)=>{
-    res.send('This is an analytics app');
+router.get('/',trackAnalytics,(req,res)=>{
+    res.send('index.html',{root:'./public'});
 });
 
 router.get('/about',trackAnalytics,(req,res)=>{
