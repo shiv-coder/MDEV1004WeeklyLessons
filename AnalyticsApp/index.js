@@ -1,12 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
 const connectDB = require('./database/db');
+const path = require('path');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 
 const app = express();
 connectDB();
 //Middleware morgan
 app.use(morgan('combined'));
+app.use(express.static(path.join(__dirname,'public')));
 
 //Routes
 app.use('/',analyticsRoutes);
