@@ -9,7 +9,7 @@ const trackAnalytics = async(req,res,next)=>{
         let analytics = await Analytics.findOne({endpoint});
 
     if(!analytics){
-        analytics = new analytics({endpoint});
+        analytics = new Analytics({endpoint});
     }
     //Update the hit count and timestamps
         analytics.hits +=1;//endpoint was accessed once more
